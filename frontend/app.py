@@ -155,14 +155,6 @@ body.light-mode {
 .freq-wrap{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,231,.1);}
 .freq-label{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:2px;padding:.5rem .8rem .2rem;}
 
-.testimonial-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.2rem;margin:.5rem 0;transition:all .3s ease;border-left:3px solid;}
-.testimonial-card:hover{background:rgba(255,255,255,.06);transform:translateX(4px);}
-.test-quote{font-size:.9rem;color:var(--text);line-height:1.6;font-style:italic;}
-.test-author{margin-top:.6rem;display:flex;align-items:center;gap:.6rem;}
-.test-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.test-name{font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:700;color:var(--c1);}
-.test-role{font-size:.72rem;color:var(--muted);}
-
 .tip-item{display:flex;align-items:flex-start;gap:.75rem;padding:.7rem .9rem;background:rgba(255,255,255,.025);border-radius:10px;margin:.4rem 0;border:1px solid rgba(255,255,255,.06);transition:all .25s ease;}
 .tip-item:hover{background:rgba(0,255,231,.04);border-color:rgba(0,255,231,.18);}
 .tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem;}
@@ -293,7 +285,7 @@ st.markdown("""
 # ══════════════════════════════════════════════════════════════
 st.markdown("""
 <div class="hero-wrap">
-  <div class="hero-eyebrow">◈ BIOACOUSTIC AI · NEURAL DIAGNOSTICS PLATFORM · v2.0.0 ◈</div>
+  <div class="hero-eyebrow">◈ BIOACOUSTIC AI · NEURAL DIAGNOSTICS PLATFORM · v1.5 ◈</div>
   <div class="hero-title">🧬 PASHUSWASTH AI</div>
   <div class="hero-subtitle">Neural Acoustic Intelligence · Poultry Disease Detection</div>
   <div class="hero-line"></div>
@@ -348,6 +340,9 @@ with col_left:
         type=["wav"],
         help="Upload a clear chicken vocalization recording for AI analysis"
     )
+    
+    if uploaded_file is None:
+        st.info("☝️ Upload a WAV audio file above to initiate bio-acoustic neural analysis")
 
     if uploaded_file is not None:
         bars = "".join([f'<div class="wave-bar" style="animation-delay:{i*0.065}s;"></div>' for i in range(32)])
@@ -435,40 +430,6 @@ with col_left:
                 except Exception as e:
                     st.error(f"⚠️ **Unexpected Error** — {str(e)}")
                     st.info("💡 Please try again or contact support with the error details.")
-    else:
-        # EMPTY STATE: Animated frequency spectrum
-        st.markdown("""
-        <div class="freq-wrap" style="margin-top:1rem;">
-          <div class="freq-label">◈ AWAITING AUDIO INPUT — LIVE FREQUENCY SPECTRUM IDLE</div>
-          <svg width="100%" height="110" viewBox="0 0 800 110" preserveAspectRatio="none" style="display:block;">
-            <defs>
-              <linearGradient id="fgA" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#00ffe7" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#7b2fff" stop-opacity="0.1"/>
-              </linearGradient>
-            </defs>
-            <g id="specBars"></g>
-          </svg>
-        </div>
-        <script>
-        (function(){
-          const g=document.getElementById('specBars');if(!g)return;
-          const heights=[8,14,10,22,18,30,24,40,35,52,48,60,55,70,65,58,72,68,80,75,70,82,78,88,85,80,75,70,65,60,55,48,42,38,32,28,22,18,14,10,8,6];
-          const W=800,n=heights.length,bw=W/n-2;
-          heights.forEach((h,i)=>{
-            const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
-            rect.setAttribute('x',i*(W/n)+1);rect.setAttribute('y',110-h);
-            rect.setAttribute('width',bw);rect.setAttribute('height',h);
-            rect.setAttribute('fill','url(#fgA)');rect.setAttribute('rx','2');
-            rect.style.cssText='transform-origin:center bottom;animation:specDance '+(0.7+Math.random()*0.8)+'s '+(i*0.04)+'s ease-in-out infinite;';
-            g.appendChild(rect);
-          });
-        })();
-        </script>
-        <style>@keyframes specDance{0%,100%{transform:scaleY(.15);opacity:.3}50%{transform:scaleY(1);opacity:1}}</style>
-        <br>
-        """, unsafe_allow_html=True)
-        st.info("☝️ Upload a WAV audio file above to initiate bio-acoustic neural analysis")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -565,78 +526,80 @@ with col_right:
 # ══════════════════════════════════════════════════════════════
 #  DISEASE ENCYCLOPEDIA
 # ══════════════════════════════════════════════════════════════
+#  HOW IT WORKS PIPELINE
+# ══════════════════════════════════════════════════════════════
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">🦠 Poultry Disease Encyclopedia — What Our AI Detects</div>', unsafe_allow_html=True)
-st.markdown("""
-<div class="disease-grid">
-  <div class="disease-card" style="--accent-a:#ff2d78;--accent-b:#7b2fff;">
-    <span class="disease-icon">🫁</span>
-    <div class="disease-name">Newcastle Disease</div>
-    <div class="disease-desc">Highly contagious viral disease causing respiratory distress, neurological signs, and distinctive coughing/gurgling vocalizations detectable by acoustic AI.</div>
-    <span class="disease-badge badge-high">HIGH RISK</span>
-  </div>
-  <div class="disease-card" style="--accent-a:#ff9500;--accent-b:#ff2d78;">
-    <span class="disease-icon">🌬️</span>
-    <div class="disease-name">Infectious Bronchitis</div>
-    <div class="disease-desc">Coronavirus-family pathogen producing wheezing, rales, and nasal discharge. Unique tracheal sounds form the acoustic signature our model identifies.</div>
-    <span class="disease-badge badge-high">HIGH RISK</span>
-  </div>
-  <div class="disease-card" style="--accent-a:#ffc107;--accent-b:#ff9500;">
-    <span class="disease-icon">🤧</span>
-    <div class="disease-name">Chronic Respiratory Disease</div>
-    <div class="disease-desc">Mycoplasma gallisepticum infection causing persistent coughing and rattling. Slow progression allows early detection via subtle vocalization changes.</div>
-    <span class="disease-badge badge-med">MEDIUM RISK</span>
-  </div>
-  <div class="disease-card" style="--accent-a:#00ffe7;--accent-b:#7b2fff;">
-    <span class="disease-icon">🫀</span>
-    <div class="disease-name">Avian Influenza</div>
-    <div class="disease-desc">H5N1/H9N2 strains acutely alter bird vocalizations. Our CNN flags abnormal acoustic energy patterns in the 200–3000 Hz frequency bands within seconds.</div>
-    <span class="disease-badge badge-high">HIGH RISK</span>
-  </div>
-  <div class="disease-card" style="--accent-a:#00ff9d;--accent-b:#00ffe7;">
-    <span class="disease-icon">💊</span>
-    <div class="disease-name">Infectious Laryngotracheitis</div>
-    <div class="disease-desc">Herpesvirus causing gasping and blood-stained mucus. Characteristic vocalization amplitude spikes are the primary detection marker used by the model.</div>
-    <span class="disease-badge badge-med">MEDIUM RISK</span>
-  </div>
-  <div class="disease-card" style="--accent-a:#a78bfa;--accent-b:#7b2fff;">
-    <span class="disease-icon">✅</span>
-    <div class="disease-name">Healthy Vocalizations</div>
-    <div class="disease-desc">Normal chicken calls — clucking, cooing, and contact calls — have distinct harmonic structures and rhythmic patterns confirming full flock health status.</div>
-    <span class="disease-badge badge-low">NOMINAL</span>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="section-title">⚙️ How The AI Works — Pipeline</div>', unsafe_allow_html=True)
+timeline_items = [
+    ("#00ffe7","🎙️","Audio Ingestion","WAV file loaded & resampled to 22,050 Hz mono. Duration normalized to 3-second windows with zero-padding."),
+    ("#7b2fff","📊","Feature Extraction","40-band Mel-Frequency Cepstral Coefficients (MFCCs) and log-mel spectrograms capture temporal and frequency features."),
+    ("#ff2d78","🔧","Preprocessing","Z-score normalization applied. Data augmentation (time-stretch, pitch-shift, noise injection) improves model robustness."),
+    ("#ffbe0b","🧠","CNN Inference","ResNet-50 backbone processes 2D spectrogram as image, extracting hierarchical acoustic patterns through 50 convolutional layers."),
+    ("#00ff9d","📈","Risk Scoring","Softmax output produces class probabilities. Risk index calibrated via temperature scaling for reliable confidence estimates."),
+    ("#a78bfa","💡","Recommendation","Rule-based post-processing maps risk score to actionable veterinary protocols and severity-tiered follow-up intervals."),
+]
+st.markdown('<div class="timeline">', unsafe_allow_html=True)
+for i, (color, icon, title, desc) in enumerate(timeline_items):
+    st.markdown(f"""
+    <div class="tl-item" style="animation-delay:{i*0.08}s">
+      <div class="tl-dot" style="background:rgba(0,0,0,.4);border-color:{color};color:{color};box-shadow:0 0 10px {color}40;">{icon}</div>
+      <div class="tl-body">
+        <div class="tl-title" style="color:{color}">{title}</div>
+        <div class="tl-desc">{desc}</div>
+      </div>
+    </div>""", unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════
-#  HOW IT WORKS TIMELINE + ANATOMY
+#  DISEASE ENCYCLOPEDIA + ANATOMY
 # ══════════════════════════════════════════════════════════════
-col_how, col_anat = st.columns([3, 2], gap="large")
+col_disease, col_anat = st.columns([3, 2], gap="large")
 
-with col_how:
+with col_disease:
     st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">⚙️ How The AI Works — Pipeline</div>', unsafe_allow_html=True)
-    timeline_items = [
-        ("#00ffe7","🎙️","Audio Ingestion","WAV file loaded & resampled to 22,050 Hz mono. Duration normalized to 3-second windows with zero-padding."),
-        ("#7b2fff","📊","Feature Extraction","40-band Mel-Frequency Cepstral Coefficients (MFCCs) and log-mel spectrograms capture temporal and frequency features."),
-        ("#ff2d78","🔧","Preprocessing","Z-score normalization applied. Data augmentation (time-stretch, pitch-shift, noise injection) improves model robustness."),
-        ("#ffbe0b","🧠","CNN Inference","ResNet-50 backbone processes 2D spectrogram as image, extracting hierarchical acoustic patterns through 50 convolutional layers."),
-        ("#00ff9d","📈","Risk Scoring","Softmax output produces class probabilities. Risk index calibrated via temperature scaling for reliable confidence estimates."),
-        ("#a78bfa","💡","Recommendation","Rule-based post-processing maps risk score to actionable veterinary protocols and severity-tiered follow-up intervals."),
-    ]
-    st.markdown('<div class="timeline">', unsafe_allow_html=True)
-    for i, (color, icon, title, desc) in enumerate(timeline_items):
-        st.markdown(f"""
-        <div class="tl-item" style="animation-delay:{i*0.08}s">
-          <div class="tl-dot" style="background:rgba(0,0,0,.4);border-color:{color};color:{color};box-shadow:0 0 10px {color}40;">{icon}</div>
-          <div class="tl-body">
-            <div class="tl-title" style="color:{color}">{title}</div>
-            <div class="tl-desc">{desc}</div>
-          </div>
-        </div>""", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🦠 Poultry Disease Encyclopedia — What Our AI Detects</div>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="disease-grid">
+      <div class="disease-card" style="--accent-a:#ff2d78;--accent-b:#7b2fff;">
+        <span class="disease-icon">🫁</span>
+        <div class="disease-name">Newcastle Disease</div>
+        <div class="disease-desc">Highly contagious viral disease causing respiratory distress, neurological signs, and distinctive coughing/gurgling vocalizations detectable by acoustic AI.</div>
+        <span class="disease-badge badge-high">HIGH RISK</span>
+      </div>
+      <div class="disease-card" style="--accent-a:#ff9500;--accent-b:#ff2d78;">
+        <span class="disease-icon">🌬️</span>
+        <div class="disease-name">Infectious Bronchitis</div>
+        <div class="disease-desc">Coronavirus-family pathogen producing wheezing, rales, and nasal discharge. Unique tracheal sounds form the acoustic signature our model identifies.</div>
+        <span class="disease-badge badge-high">HIGH RISK</span>
+      </div>
+      <div class="disease-card" style="--accent-a:#ffc107;--accent-b:#ff9500;">
+        <span class="disease-icon">🤧</span>
+        <div class="disease-name">Chronic Respiratory Disease</div>
+        <div class="disease-desc">Mycoplasma gallisepticum infection causing persistent coughing and rattling. Slow progression allows early detection via subtle vocalization changes.</div>
+        <span class="disease-badge badge-med">MEDIUM RISK</span>
+      </div>
+      <div class="disease-card" style="--accent-a:#00ffe7;--accent-b:#7b2fff;">
+        <span class="disease-icon">🫀</span>
+        <div class="disease-name">Avian Influenza</div>
+        <div class="disease-desc">H5N1/H9N2 strains acutely alter bird vocalizations. Our CNN flags abnormal acoustic energy patterns in the 200–3000 Hz frequency bands within seconds.</div>
+        <span class="disease-badge badge-high">HIGH RISK</span>
+      </div>
+      <div class="disease-card" style="--accent-a:#00ff9d;--accent-b:#00ffe7;">
+        <span class="disease-icon">💊</span>
+        <div class="disease-name">Infectious Laryngotracheitis</div>
+        <div class="disease-desc">Herpesvirus causing gasping and blood-stained mucus. Characteristic vocalization amplitude spikes are the primary detection marker used by the model.</div>
+        <span class="disease-badge badge-med">MEDIUM RISK</span>
+      </div>
+      <div class="disease-card" style="--accent-a:#a78bfa;--accent-b:#7b2fff;">
+        <span class="disease-icon">✅</span>
+        <div class="disease-name">Healthy Vocalizations</div>
+        <div class="disease-desc">Normal chicken calls — clucking, cooing, and contact calls — have distinct harmonic structures and rhythmic patterns confirming full flock health status.</div>
+        <span class="disease-badge badge-low">NOMINAL</span>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 with col_anat:
@@ -732,61 +695,6 @@ with col_anat:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════
-#  TESTIMONIALS + IMPACT STATS
-# ══════════════════════════════════════════════════════════════
-col_t, col_s = st.columns([3, 2], gap="large")
-
-with col_t:
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">💬 Field Testimonials</div>', unsafe_allow_html=True)
-    testimonials = [
-        ("#00ffe7","🧑‍🌾","Rajesh Kumar","Poultry Farm Owner, Punjab","We detected a Newcastle outbreak 4 days before visible symptoms appeared. PashuSwasth saved our entire 8,000-bird flock from catastrophic losses."),
-        ("#7b2fff","👩‍⚕️","Dr. Priya Sharma","Avian Veterinarian, Maharashtra","The acoustic AI catches respiratory distress patterns I would only identify on physical examination. It's like having a vet monitoring your flock 24/7."),
-        ("#00ff9d","🏭","Suresh Agrofarms","Commercial Broiler Operation, AP","Integrated the API into our farm management system. Automated daily scans across 12 sheds. ROI was positive within the first month of deployment."),
-    ]
-    for color, icon, name, role, quote in testimonials:
-        st.markdown(f"""
-        <div class="testimonial-card" style="border-left-color:{color}50;">
-          <div class="test-quote">"{quote}"</div>
-          <div class="test-author">
-            <div class="test-avatar" style="background:{color}15;border:1px solid {color}30;">{icon}</div>
-            <div><div class="test-name" style="color:{color}">{name}</div><div class="test-role">{role}</div></div>
-          </div>
-        </div>""", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-with col_s:
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">🌍 Impact Numbers</div>', unsafe_allow_html=True)
-    impact = [
-        ("#00ffe7","🐔","2.4M+","Birds Monitored"),
-        ("#7b2fff","🏆","94.2%","Detection Accuracy"),
-        ("#ff2d78","⚡","4 Days","Avg. Early Warning"),
-        ("#00ff9d","💰","₹18Cr+","Losses Prevented"),
-        ("#ffbe0b","🌱","30+","Farms Deployed"),
-        ("#a78bfa","🔬","12,000+","Training Samples"),
-    ]
-    st.markdown('<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">', unsafe_allow_html=True)
-    for color, icon, val, label in impact:
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,.03);border:1px solid {color}1a;border-radius:12px;padding:.9rem;text-align:center;transition:all .3s ease;"
-             onmouseover="this.style.background='rgba(255,255,255,.07)';this.style.transform='translateY(-3px)';this.style.borderColor='{color}40'"
-             onmouseout="this.style.background='rgba(255,255,255,.03)';this.style.transform='translateY(0)';this.style.borderColor='{color}1a'">
-          <div style="font-size:1.4rem;margin-bottom:.25rem;">{icon}</div>
-          <div style="font-family:Orbitron,sans-serif;font-size:1.05rem;font-weight:700;color:{color};">{val}</div>
-          <div style="font-size:.68rem;letter-spacing:1px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-top:.2rem;">{label}</div>
-        </div>""", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<div class="section-title" style="font-size:.72rem;">🦠 Detectable Conditions</div>', unsafe_allow_html=True)
-    diseases = ["Newcastle Disease","Infectious Bronchitis","Avian Influenza","CRD · Mycoplasma","ILT · Herpesvirus","Healthy · Normal"]
-    colors_d = ["#ff2d78","#ff9500","#ff2d78","#ffc107","#7b2fff","#00ff9d"]
-    badges = "".join([f'<span style="display:inline-block;margin:.2rem .2rem .2rem 0;padding:.22rem .65rem;border-radius:20px;font-family:Share Tech Mono,monospace;font-size:.62rem;letter-spacing:1px;background:{c}12;border:1px solid {c}2e;color:{c};">{d}</span>' for d, c in zip(diseases, colors_d)])
-    st.markdown(f'<div style="line-height:2.2;">{badges}</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ══════════════════════════════════════════════════════════════
 #  FOOTER
 # ══════════════════════════════════════════════════════════════
 st.markdown(f"""
@@ -796,7 +704,7 @@ st.markdown(f"""
     Built with 💝 by <strong>Drift-Ops</strong> &nbsp;·&nbsp;
     Saving Flocks, One Sound at a Time 🐔
   </div>
-  <div>Version 2.0.0 &nbsp;·&nbsp; Last Updated: {datetime.now().strftime('%B %d, %Y')}</div>
+  <div>Version 1.5 &nbsp;·&nbsp; Last Updated: {datetime.now().strftime('%B %d, %Y')}</div>
   <div style="margin-top:.8rem;font-size:.6rem;opacity:.4;">
     ◈ &nbsp; PASHUSWASTH AI · BIOACOUSTIC INTELLIGENCE · ALL SYSTEMS NOMINAL &nbsp; ◈
   </div>
