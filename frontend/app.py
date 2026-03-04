@@ -328,23 +328,18 @@ with col_left:
                     
                     if prediction == "Healthy":
                         st.markdown(
-                            '<div class="status-badge status-healthy">✅ Healthy Livestock</div>',
+                            f'<div class="status-badge status-healthy">✅ Healthy Livestock | Risk: {score:.1%}</div>',
                             unsafe_allow_html=True
                         )
                         recommendation = "No immediate action required. Continue regular monitoring."
                         icon = "✅"
                     else:
                         st.markdown(
-                            '<div class="status-badge status-unhealthy">⚠️ Potential Health Issue</div>',
+                            f'<div class="status-badge status-unhealthy">⚠️ Potential Health Issue | Risk: {score:.1%}</div>',
                             unsafe_allow_html=True
                         )
                         recommendation = "Veterinary consultation recommended. Monitor closely for symptoms."
                         icon = "⚠️"
-                    
-                    st.markdown(f"""
-                    <div class="metric-label">Risk Score</div>
-                    <div class="metric-value">{score:.1%}</div>
-                    """, unsafe_allow_html=True)
                     
                     st.progress(min(score, 1.0))
                     
@@ -355,12 +350,10 @@ with col_left:
                     st.markdown(f"#### {icon} Recommendation")
                     st.info(recommendation)
                     
-                    st.markdown("#### 📊 Detailed Metrics")
-                    metric_col1, metric_col2 = st.columns(2)
-                    with metric_col1:
-                        st.metric("Confidence Level", f"{(1-abs(score-0.5)*2)*100:.1f}%")
-                    with metric_col2:
-                        st.metric("Analysis Time", "1.8s")
+                    # AI Health Guidance Section
+                    if "ai_report" in result:
+                        st.markdown("#### 🧠 AI Health Guidance")
+                        st.info(result["ai_report"])
                     
                     st.markdown('</div>', unsafe_allow_html=True)
                     

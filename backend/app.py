@@ -4,7 +4,12 @@ import torch.nn as nn
 import librosa
 import numpy as np
 from flask import Flask, request, jsonify
-import uuid
+import uuid, boto3, json
+
+bedrock = boto3.client(
+    'bedrock-runtime',
+    region_name = 'us-east-1'
+)
 
 app = Flask(__name__)
 
@@ -52,6 +57,40 @@ model.eval()
 
 print("Model loaded successfully")
 
+# LLM Analysis
+def generate_ai_report(prediction, score):
+
+    prompt = f"""
+You are a livestock veterinarian assistant.
+
+An AI acoustic model analyzed a chicken vocalization.
+
+Prediction: {prediction}
+Risk Score: {score}
+
+Risk interpretation:
+0.0–0.25 → Healthy
+0.25–0.5 → Mild symptoms
+0.5–0.75 → Possible respiratory illness
+0.75–1.0 → Severe respiratory distress
+
+Explain the condition and give simple advice for farmers.
+Keep the answer under 100 words.
+"""
+
+    response = bedrock.converse(
+        modelId="amazon.nova-lite-v1:0",
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"text": prompt}
+                ]
+            }
+        ]
+    )
+
+    return response["output"]["message"]["content"][0]["text"]
 
 # =========================
 # FEATURE EXTRACTION
@@ -110,9 +149,12 @@ def predict():
 
     label = "Unhealthy" if prob > 0.5 else "Healthy"
 
+    ai_report = generate_ai_report(label, prob)
+
     return jsonify({
         "prediction": label,
-        "risk_score": round(prob, 6)
+        "risk_score": round(prob, 6),
+        "ai_report": ai_report
     })
 
 
