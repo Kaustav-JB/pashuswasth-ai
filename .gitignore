@@ -4,3 +4,4 @@ test-voice.wav
 .vscode/
 .venv/
 .venv/*
+__pycache__
