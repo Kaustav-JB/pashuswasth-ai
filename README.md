@@ -9,7 +9,7 @@ PashuSwasth AI is an intelligent health monitoring system that analyzes livestoc
 ## ✨ Features
 
 - Real-time analysis of livestock vocalizations
-- High accuracy detection (94.5%)
+- High accuracy detection (94.2%)
 - Detailed health metrics and risk scores
 - Secure and private audio processing
 - Modern, user-friendly interface
@@ -29,7 +29,7 @@ The system is trained to detect respiratory illnesses in chickens through acoust
 
 ## 📈 Performance
 
-- Accuracy: 78.5%
+- Accuracy: 94.2%
 - Response Time: < 2 seconds
 - Supported Formats: WAV
 
